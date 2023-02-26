@@ -2,7 +2,7 @@ import React from 'react'
 import Order from '../models/order'
 import mongoose from 'mongoose'
 
-const Order = ({orderss}) => {
+const OrderPage = ({orderss}) => {
     return (
         <section className="text-gray-600 body-font overflow-hidden min-h-screen">
             <div className="container px-5 py-24 mx-auto">
@@ -67,4 +67,4 @@ export async function getServerSideProps(context) {
       }
   }
 
-export default Order
+export default OrderPage
