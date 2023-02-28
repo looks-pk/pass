@@ -3,105 +3,105 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CheckOut = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
-    const [fullname, setFullname] = useState("");
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
-    const [mobile, setMobile] = useState("");
-    const [email, setEmail] = useState("");
-    const [adress, setAdress] = useState("");
-    const [message, setMessage] = useState("");
-    const [user, setUser] = useState({ value: null })
-  
-  
-    useEffect(() => {
-      const myuser = JSON.parse(localStorage.getItem('myuser'))
-      if (myuser && myuser.token) {
-        setUser(myuser)
-        setEmail(myuser.email)
-        fetchData(myuser.token)
-      }
-    }, [])
-  
-    const fetchData = async (token) => {
-      let data = { token: token };
-  
-      let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getuser`, {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      let response = await res.json();
-      console.log(response)
-      setFullname(response.name)
-      setMobile(response.mobile)
-      setCity(response.city)
-      setState(response.state)
-      setAdress(response.adress)
+  const [fullname, setFullname] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [adress, setAdress] = useState("");
+  const [message, setMessage] = useState("");
+  const [user, setUser] = useState({ value: null })
+
+
+  useEffect(() => {
+    const myuser = JSON.parse(localStorage.getItem('myuser'))
+    if (myuser && myuser.token) {
+      setUser(myuser)
+      setEmail(myuser.email)
+      fetchData(myuser.token)
     }
-  
-  
-    const handleChange = (e) => {
-      if (e.target.name == "fullname") {
-        setFullname(e.target.value);
-      } 
-      else if (e.target.name == "city") {
-        setCity(e.target.value);
-      }
-      else if (e.target.name == "state") {
-        setState(e.target.value);
-  
-      } else if (e.target.name == "mobile") {
-        setMobile(e.target.value);
-      } else if (e.target.name == "email") {
-        setEmail(e.target.value);
-      } else if (e.target.name == "adress") {
-        setAdress(e.target.value);
-      } else if (e.target.name == "message") {
-        setMessage(e.target.value);
-      }
-    };
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const data = { fullname, mobile, city, state, email, adress, message, subTotal, cart };
-  
-      let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/order`, {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+  }, [])
+
+  const fetchData = async (token) => {
+    let data = { token: token };
+
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getuser`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let response = await res.json();
+    console.log(response)
+    setFullname(response.name)
+    setMobile(response.mobile)
+    setCity(response.city)
+    setState(response.state)
+    setAdress(response.adress)
+  }
+
+
+  const handleChange = (e) => {
+    if (e.target.name == "fullname") {
+      setFullname(e.target.value);
+    }
+    else if (e.target.name == "city") {
+      setCity(e.target.value);
+    }
+    else if (e.target.name == "state") {
+      setState(e.target.value);
+
+    } else if (e.target.name == "mobile") {
+      setMobile(e.target.value);
+    } else if (e.target.name == "email") {
+      setEmail(e.target.value);
+    } else if (e.target.name == "adress") {
+      setAdress(e.target.value);
+    } else if (e.target.name == "message") {
+      setMessage(e.target.value);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = { fullname, mobile, city, state, email, adress, message, subTotal, cart };
+
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/order`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let response = await res.json();
+    if (response.success) {
+
+      toast.success(`${response.success}`, {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-      let response = await res.json();
-      if (response.success) {
-  
-        toast.success(`${response.success}`, {
-          position: "top-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-      else {
-        toast.error(`${response.error}`, {
-          position: "top-left",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        clearCart()
-      }
-    };
+    }
+    else {
+      toast.error(`${response.error}`, {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      clearCart()
+    }
+  };
   return (
     <div>
       <div className="bg-white py-6 sm:py-8 lg:py-12 min-h-screen">
@@ -188,13 +188,13 @@ const CheckOut = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                 className="w-full bg-gray-50 text-gray-800 border focus:ring ring-red-300 rounded outline-none transition duration-100 px-3 py-2"
               />
             </div>
-            
+
             <div className="sm:col-span-2">
               <label
                 htmlFor="adress"
                 className="inline-block text-gray-800 text-sm sm:text-base mb-2"
               >
-              House and street No With area name
+                House and street No With area name
               </label>
               <input
                 onChange={handleChange}

@@ -16,93 +16,93 @@ const MyAccount = () => {
     const [password, setPassword] = useState("");
     const [newpassword, setNewPassword] = useState("");
     const [cnewpassword, setCNewPassword] = useState("");
-  
+
     const [user, setUser] = useState({ value: null })
-  
+
     useEffect(() => {
-  
-      const myuser = JSON.parse(localStorage.getItem('myuser'))
-      if (!myuser) {
-        router.push('/')
-      }
-      if (myuser && myuser.token) {
-        setUser(myuser)
-        setEmail(myuser.email)
-      }
-      fetchData(myuser.token)
+
+        const myuser = JSON.parse(localStorage.getItem('myuser'))
+        if (!myuser) {
+            router.push('/')
+        }
+        if (myuser && myuser.token) {
+            setUser(myuser)
+            setEmail(myuser.email)
+        }
+        fetchData(myuser.token)
     }, [router])
-  
-  
+
+
     const fetchData = async (token) => {
-      let data = { token: token };
-  
-      let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getuser`, {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      let response = await res.json();
-      console.log(response)
-      setFullname(response.name)
-      setMobile(response.mobile)
-      setCity(response.city)
-      setState(response.state)
-      setAdress(response.adress)
-    }
-  
-    const handleUserSubmit = async (e) => {
-      e.preventDefault()
-      const data = { token: user.token, fullname, adress, city, state };
-  
-      let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateuser`, {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      let response = await res.json();
-    };
-  
-    const handleUpdatePass = async (e) => {
-      e.preventDefault()
-      if (newpassword == cnewpassword){
-        const data = { token: user.token, password, newpassword, cnewpassword };
-        let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updatepassword`, {
-          method: "POST", // or 'PUT'
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+        let data = { token: token };
+
+        let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getuser`, {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
         });
         let response = await res.json();
         console.log(response)
-      }
+        setFullname(response.name)
+        setMobile(response.mobile)
+        setCity(response.city)
+        setState(response.state)
+        setAdress(response.adress)
     }
-      
-    const handleChange = (e) => {
-      if (e.target.name == "fullname") {
-        setFullname(e.target.value);
-      } else if (e.target.name == "city") {
-        setCity(e.target.value);
-      } else if (e.target.name == "state") {
-        setState(e.target.value);
-      } else if (e.target.name == "mobile") {
-        setMobile(e.target.value);
-      } else if (e.target.name == "adress") {
-        setAdress(e.target.value);
-      } else if (e.target.name == "message") {
-        setMessage(e.target.value);
-      } else if (e.target.name == "password") {
-        setPassword(e.target.value);
-      } else if (e.target.name == "newpassword") {
-        setNewPassword(e.target.value);
-      } else if (e.target.name == "cnewpassword") {
-        setCNewPassword(e.target.value);
-      }
+
+    const handleUserSubmit = async (e) => {
+        e.preventDefault()
+        const data = { token: user.token, fullname, adress, city, state };
+
+        let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updateuser`, {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        let response = await res.json();
     };
+
+    const handleUpdatePass = async (e) => {
+        e.preventDefault()
+        if (newpassword == cnewpassword) {
+            const data = { token: user.token, password, newpassword, cnewpassword };
+            let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/updatepassword`, {
+                method: "POST", // or 'PUT'
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            let response = await res.json();
+            console.log(response)
+        }
+    }
+
+    const handleChange = (e) => {
+        if (e.target.name == "fullname") {
+            setFullname(e.target.value);
+        } else if (e.target.name == "city") {
+            setCity(e.target.value);
+        } else if (e.target.name == "state") {
+            setState(e.target.value);
+        } else if (e.target.name == "mobile") {
+            setMobile(e.target.value);
+        } else if (e.target.name == "adress") {
+            setAdress(e.target.value);
+        } else if (e.target.name == "message") {
+            setMessage(e.target.value);
+        } else if (e.target.name == "password") {
+            setPassword(e.target.value);
+        } else if (e.target.name == "newpassword") {
+            setNewPassword(e.target.value);
+        } else if (e.target.name == "cnewpassword") {
+            setCNewPassword(e.target.value);
+        }
+    }
     return (
         <>
             <div className='container mx-auto min-h-screen'>

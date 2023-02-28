@@ -19,13 +19,12 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
   const [color, setColor] = useState()
   const [size, setSize] = useState()
 
-  useEffect( () => {
-    if(!error){
+  useEffect(() => {
+    if (!error) {
       setColor(product.color)
       setSize(product.size)
     }
-  },[router.query])
-
+  }, [router.query])
 
   const pincodeCheck = async () => {
     let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`)
@@ -67,22 +66,13 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
 
   const refreshVariant = (newsize, newcolor) => {
 
-    //----------------------//
-    // page reload karwana hy to yeh
-    // window.location = url;
     let url = `${process.env.NEXT_PUBLIC_HOST}/product/${variants[newcolor][newsize]['slug']}`
     router.push(url)
-
-
-    //----------------------------//
-    // page reload nahi karwana to yeh 
-    // router.push(`${process.env.NEXT_PUBLIC_HOST}/product/${variants[newcolor][newsize]['slug']}`)
-    // router.push(url)
   }
 
 
-  if(error == 404){
-    return<Error statusCode={404}/>
+  if (error == 404) {
+    return <Error statusCode={404} />
   }
 
 
@@ -107,8 +97,6 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-96  px-24 object-contain object-top rounded"
               src={product.img}
-            // width={25}
-            // height={25}
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -255,12 +243,12 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                 </div>
               </div>
               <div className="flex">
-              {product.availbleQty > 0 && <span className="title-font font-medium text-2xl text-gray-900">Rs {product.price}</span>}
-              {product.availbleQty <= 0 &&<span className="title-font font-medium text-2xl text-gray-900">Out Of Stock!</span>}
-                <button disabled={product.availbleQty<=0} onClick={() => { buyNow(slug, 1, product.price, product.title, size, color, product.img) }} className="disabled:bg-red-200 flex ml-6 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
+                {product.availbleQty > 0 && <span className="title-font font-medium text-2xl text-gray-900">Rs {product.price}</span>}
+                {product.availbleQty <= 0 && <span className="title-font font-medium text-2xl text-gray-900">Out Of Stock!</span>}
+                <button disabled={product.availbleQty <= 0} onClick={() => { buyNow(slug, 1, product.price, product.title, size, color, product.img) }} className="disabled:bg-red-200 flex ml-6 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
                   Buy Now
                 </button>
-                <button disabled={product.availbleQty<=0} onClick={() => { addToCart(slug, 1, product.price, product.title, size, color, product.img, product.slug) }} className="disabled:bg-red-200 flex ml-2 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
+                <button disabled={product.availbleQty <= 0} onClick={() => { addToCart(slug, 1, product.price, product.title, size, color, product.img, product.slug) }} className="disabled:bg-red-200 flex ml-2 text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
                   Add To Cart
                 </button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
@@ -296,15 +284,15 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
 
 
 export async function getServerSideProps(context) {
-  let error=null
+  let error = null
   if (!mongoose.connections[0].readyState) {
     await mongoose.connect(process.env.MONGO_URI);
   }
 
   let product = await Product.findOne({ slug: context.query.slug });
-  if (product == null){
+  if (product == null) {
     return {
-      props: {error: 404 }, // will be passed to the page component as props
+      props: { error: 404 }, // will be passed to the page component as props
     };
   }
   let variants = await Product.find({ title: product.title, category: product.category })
@@ -322,7 +310,7 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {error: error, product: JSON.parse(JSON.stringify(product)), variants: JSON.parse(JSON.stringify(colorSizeSlug)) }, // will be passed to the page component as props
+    props: { error: error, product: JSON.parse(JSON.stringify(product)), variants: JSON.parse(JSON.stringify(colorSizeSlug)) },
   };
 }
 

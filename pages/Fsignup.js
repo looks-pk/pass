@@ -7,133 +7,132 @@ import { authentication } from "../components/firebase_config";
 
 const Fsignup = () => {
 
-    const router = useRouter();
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showotpInput, setShowotpInput] = useState(false);
-    const [OTP, setOTP] = useState('')
-  
-  
-    const genrateRecaptcha = () => {
-      window.recaptchaVerifier = new RecaptchaVerifier('recapthca-container', {
-        'size': 'invisible',
-        'callback': (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-        }
-      }, authentication );
-    }
-  
-  
-    const verifyOTP =  (e) => {
-  
-      let otp = e.target.value;
-      setOTP(otp);
-  
-      if(otp.length === 6){
-        let confirmationResult = window.confirmationResult;
-        confirmationResult.confirm(otp).then(async(result) => {
-          toast.success("Your Account Hasbeen Created Yayy!", {
-            position: "top-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          const data = { name, email, password };
-      let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
-        method: "POST", // or 'PUT'
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showotpInput, setShowotpInput] = useState(false);
+  const [OTP, setOTP] = useState('')
+
+
+  const genrateRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier('recapthca-container', {
+      'size': 'invisible',
+      'callback': (response) => {
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+      }
+    }, authentication);
+  }
+
+  const verifyOTP = (e) => {
+
+    let otp = e.target.value;
+    setOTP(otp);
+
+    if (otp.length === 6) {
+      let confirmationResult = window.confirmationResult;
+      confirmationResult.confirm(otp).then(async (result) => {
+        toast.success("Your Account Hasbeen Created Yayy!", {
+          position: "top-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        const data = { name, email, password };
+        let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
+          method: "POST", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        let response = await res.json();
+        console.log(response);
+        setEmail("");
+        setName("");
+        setPassword("");
+        router.push("/Login")
+
+        // User signed in successfully.
+        const user = result.user;
+        console.log(user)
+        // ...
+      }).catch((error) => {
+        // User couldn't sign in (bad verification code?)
+        // ...
+        toast.error("Please Enter A valid OTP", {
+          position: "top-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
-      let response = await res.json();
-      console.log(response);
-      setEmail("");
-      setName("");
-      setPassword("");
-      router.push("/Login")
-      
-          // User signed in successfully.
-          const user = result.user;
-          console.log(user)
-          // ...
-        }).catch((error) => {
-          // User couldn't sign in (bad verification code?)
-          // ...
-          toast.error("Please Enter A valid OTP", {
-            position: "top-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
-  
-      }
+
     }
-  
-  
-  
-    useEffect(() => {
-      if (localStorage.getItem("token")) {
-        router.push("/");
-      }
-    }, [router]);
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      if(email.length >= 9){
-        setShowotpInput(true);
-        genrateRecaptcha();
-        let appVerifier = window.recaptchaVerifier
-        signInWithPhoneNumber(authentication,email,appVerifier).then(confirmationResult  => {
-            window.confirmationResult = confirmationResult;
-            toast.success("OTP Sanded Successfully!", {
-              position: "top-left",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-        }).catch((error) => {
-          // Error; SMS not sent
-          toast.error("Please Enter A Valid Mobile Number", {
-            position: "top-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          console.log(error)
+  }
+
+
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
+  }, [router]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (email.length >= 9) {
+      setShowotpInput(true);
+      genrateRecaptcha();
+      let appVerifier = window.recaptchaVerifier
+      signInWithPhoneNumber(authentication, email, appVerifier).then(confirmationResult => {
+        window.confirmationResult = confirmationResult;
+        toast.success("OTP Sanded Successfully!", {
+          position: "top-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         });
-      }
-    
-      
-    };
-  
-    const handleChange = (e) => {
-      if (e.target.name == "name") {
-        setName(e.target.value);
-      } else if (e.target.name == "email") {
-        setEmail(e.target.value);
-      } else if (e.target.name == "password") {
-        setPassword(e.target.value);
-      }
-    };
+      }).catch((error) => {
+        // Error; SMS not sent
+        toast.error("Please Enter A Valid Mobile Number", {
+          position: "top-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        console.log(error)
+      });
+    }
+
+
+  };
+
+  const handleChange = (e) => {
+    if (e.target.name == "name") {
+      setName(e.target.value);
+    } else if (e.target.name == "email") {
+      setEmail(e.target.value);
+    } else if (e.target.name == "password") {
+      setPassword(e.target.value);
+    }
+  };
   return (
     <div className="bg-white py-6 sm:py-8 lg:py-12 min-h-screen">
       <ToastContainer
@@ -206,21 +205,11 @@ const Fsignup = () => {
               />
             </div>
             {showotpInput === true ? <div class="mb-3">
-            <label htmlFor="otp" className="form-label inline-block text-gray-800 text-sm sm:text-base mb-2">
-             Enter OTP
-            </label>
-            <input type="text" className="form-control w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" value={OTP} onChange={verifyOTP} id="OTP" name="OTP" />
-          </div> : null }
-
-            {/* <div>
-          <label for="password" className="inline-block text-gray-800 text-sm sm:text-base mb-2">Confirm Password</label>
-          <input name="password" className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
-        </div>
-
-        <div>
-          <label for="password" className="inline-block text-gray-800 text-sm sm:text-base mb-2">Mobile Number</label>
-          <input name="password" className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
-        </div> */}
+              <label htmlFor="otp" className="form-label inline-block text-gray-800 text-sm sm:text-base mb-2">
+                Enter OTP
+              </label>
+              <input type="text" className="form-control w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" value={OTP} onChange={verifyOTP} id="OTP" name="OTP" />
+            </div> : null}
 
             <button className="block bg-gray-800 hover:bg-gray-700 active:bg-gray-600 focus-visible:ring ring-gray-300 text-white text-sm md:text-base font-bold text-center rounded-lg outline-none transition duration-100 px-8 py-3">
               Register Now
