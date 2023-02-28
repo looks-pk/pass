@@ -3,6 +3,9 @@ import Order from '../models/order'
 import mongoose from 'mongoose'
 
 const OrderPage = ({orderss}) => {
+
+    const products = orderss.cart
+    
     return (
         <section className="text-gray-600 body-font overflow-hidden min-h-screen">
             <div className="container px-5 py-24 mx-auto">

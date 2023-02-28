@@ -23,7 +23,7 @@ const SingUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const data = {name, email, password}
-    
+      //${process.env.NEXT_PUBLIC_HOST}
         let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
           method: 'POST', // or 'PUT'
           headers: {
@@ -92,17 +92,7 @@ const SingUp = () => {
                             <label htmlFor="password" className="inline-block text-gray-800 text-sm sm:text-base mb-2">Password</label>
                             <input value={password} onChange={handleChange} id="password" name="password" className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
                         </div>
-
-                        {/* <div>
-          <label for="password" className="inline-block text-gray-800 text-sm sm:text-base mb-2">Confirm Password</label>
-          <input name="password" className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
-        </div>
-
-        <div>
-          <label for="password" className="inline-block text-gray-800 text-sm sm:text-base mb-2">Mobile Number</label>
-          <input name="password" className="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
-        </div> */}
-
+                        
                         <button className="block bg-gray-800 hover:bg-gray-700 active:bg-gray-600 focus-visible:ring ring-gray-300 text-white text-sm md:text-base font-bold text-center rounded-lg outline-none transition duration-100 px-8 py-3">Register Now</button>
                     </div>
                 </form>
