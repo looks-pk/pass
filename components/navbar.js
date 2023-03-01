@@ -7,11 +7,9 @@ const [dropdown, setDropdown] = useState(false)
 const [menuOpen, setMenuOpen] = useState(false);
 
 
-
 const handleButtonClick = () => {
   setMenuOpen(!menuOpen);
 };
-
 
   return (
     <div className="bg-white pb-6 sm:pb-8 lg:pb-12">
@@ -21,7 +19,6 @@ const handleButtonClick = () => {
           <svg width="95" height="94" viewBox="0 0 95 94" className="w-6 h-auto text-red-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M96 0V47L48 94H0V47L48 0H96Z" />
           </svg>
-          
           KNAZ.PK
         </Link>
         <nav className="hidden lg:flex gap-12 2xl:ml-16">
@@ -48,13 +45,11 @@ const handleButtonClick = () => {
 
           </div>}
 
-
-  
           {user.value && <Link onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}} href="/MyAccount" className="w-12 sm:w-20 md:w-24 h-12 sm:h-20 md:h-24 flex flex-col justify-center items-center hover:bg-gray-100 active:bg-gray-200 transition duration-100 gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span className="hidden sm:block text-gray-500 text-xs font-semibold">Abdullah</span>
+            <span className="hidden sm:block text-gray-500 text-xs font-semibold">{user.email}</span>
           </Link>}
 
           {!user.value && <Link href="/Login" className="w-12 sm:w-20 md:w-24 h-12 sm:h-20 md:h-24 flex flex-col justify-center items-center hover:bg-gray-100 active:bg-gray-200 transition duration-100 gap-1.5">
@@ -85,7 +80,6 @@ const handleButtonClick = () => {
         </ul>
           </nav>
       )}
-
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
             </svg>
