@@ -30,10 +30,7 @@ const addproduct = () => {
         })
         let response = await res.json()
         console.log(response)
-        setEmail('')
-        setName('')
-        setPassword('')
-        toast.success('Your Account Hasbeen Created Yayy!', {
+        toast.success('New Product Is Added Successfully Yayy!', {
             position: "top-left",
             autoClose: 5000,
             hideProgressBar: false,
@@ -139,9 +136,9 @@ const addproduct = () => {
                             </label>
                             <div className="relative">
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={handleChange} value={category} name='category' id="category">
-                                    <option>tshirt</option>
-                                    <option>soots</option>
+                                    <option>select category</option>
                                     <option>kids</option>
+                                    <option>tshirt</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -154,6 +151,7 @@ const addproduct = () => {
                             </label>
                             <div className="relative">
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={handleChange} name='size' value={size} id="size">
+                                    <option>Select Size</option>
                                     <option>S</option>
                                     <option>M</option>
                                     <option>L</option>
@@ -171,6 +169,7 @@ const addproduct = () => {
                             </label>
                             <div className="relative">
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={handleChange} name='color' value={color} id="color">
+                                    <option>Select Color</option>
                                     <option>black</option>
                                     <option>blue</option>
                                     <option>white</option>
@@ -195,7 +194,7 @@ const addproduct = () => {
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={handleChange} id="availbleQty" name='availbleQty' value={availbleQty} type="text" placeholder="quantity" />
                         </div>
                     </div>
-                    <button onClick={handleSubmit} className='btn bg-red-600 text-white rounded-xl p-2'>Submit</button>
+                    <button className='btn bg-red-600 text-white rounded-xl p-2'>Submit</button>
                 </form>
             </div>
             <Sidebar />

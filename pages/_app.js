@@ -82,6 +82,14 @@ export default function App({ Component, pageProps }) {
     router.push('/CheckOut')
   }
 
+  useEffect(() => {
+    let subt = 0;
+    let keys = Object.keys(cart)
+    for (let i = 0; i < keys.length; i++) {
+      subt += cart[keys[i]]["price"] * cart[keys[i]].qty;
+    }
+    setSubtotal(subt)
+  }, [cart])
 
 
   const clearCart = () => {
